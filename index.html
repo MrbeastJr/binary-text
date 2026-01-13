@@ -1,9 +1,25 @@
-<!DOCTYPE html>
+.container {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            border-radius: 24px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6),
+                        0 0 2px rgba(255, 255, 255, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            padding: 60px;
+            max-width: 800px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            flex: 0 1 auto;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Binary to Text Converter</title>
+    <title>Character Encoder/Decoder</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,14 +30,15 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-            background: #000000;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
             padding: 20px;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         
         body::before {
@@ -34,6 +51,7 @@
             background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
+            animation: float 6s ease-in-out infinite;
         }
         
         body::after {
@@ -46,108 +64,224 @@
             background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
         }
         
         .container {
-            background: #0a0a0a;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 
-                        0 0 1px rgba(255, 255, 255, 0.1);
-            padding: 50px;
-            max-width: 700px;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            border-radius: 24px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6),
+                        0 0 2px rgba(255, 255, 255, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            padding: 60px;
+            max-width: 800px;
             width: 100%;
             position: relative;
             z-index: 1;
             border: 1px solid rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
+            max-height: 95vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        
+        .container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+        
+        .container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.35);
         }
         
         .header {
-            margin-bottom: 40px;
+            margin-bottom: 45px;
             text-align: center;
         }
         
         .icon {
-            font-size: 3.5em;
-            margin-bottom: 15px;
-            animation: pulse 2s infinite;
+            font-size: 4em;
+            margin-bottom: 18px;
+            animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            color: #ffffff;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            width: 90px;
+            height: 90px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.08); }
         }
         
         h1 {
             color: #ffffff;
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            font-size: 2.8em;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
         }
         
         .subtitle {
-            color: #a3a3a3;
-            font-size: 1em;
+            color: #a0a0a0;
+            font-size: 1.05em;
             font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+        
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .toggle-btn {
+            flex: 1;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: #888888;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.92em;
             letter-spacing: 0.3px;
         }
         
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+            color: #000000;
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .toggle-btn:hover:not(.active) {
+            color: #c0c0c0;
+        }
+        
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%);
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .mode-btn {
+            flex: 1;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            background: transparent;
+            color: #888888;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.88em;
+            letter-spacing: 0.3px;
+        }
+        
+        .mode-btn.active {
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+            color: #000000;
+            box-shadow: 0 6px 16px rgba(255, 255, 255, 0.12);
+            transform: translateY(-1px);
+        }
+        
+        .mode-btn:hover:not(.active) {
+            color: #c0c0c0;
+        }
+        
         .input-group {
-            margin-bottom: 25px;
+            margin-bottom: 28px;
         }
         
         label {
             display: block;
             margin-bottom: 12px;
-            color: #f7f7f7;
-            font-weight: 600;
-            font-size: 0.95em;
-            letter-spacing: 0.3px;
+            color: #f0f0f0;
+            font-weight: 700;
+            font-size: 0.96em;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
         }
         
         textarea {
             width: 100%;
             padding: 18px;
-            border: 1px solid #333333;
-            border-radius: 12px;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
             font-size: 1em;
             font-family: 'Monaco', 'Courier New', monospace;
             resize: vertical;
-            min-height: 120px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #1a1a1a;
+            min-height: 130px;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(135deg, #141414 0%, #1a1a1a 100%);
             color: #ffffff;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
         }
         
         textarea:focus {
             outline: none;
-            border-color: #666666;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08),
-                        0 8px 24px rgba(0, 0, 0, 0.4);
-            background: #222222;
+            border-color: #555555;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.06),
+                        0 12px 32px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, #1a1a1a 0%, #222222 100%);
         }
         
         textarea::placeholder {
             color: #666666;
             font-weight: 300;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
         }
         
         .button-group {
             display: flex;
             gap: 12px;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
         
         button {
             flex: 1;
-            padding: 15px 28px;
+            padding: 14px 28px;
             border: none;
             border-radius: 10px;
-            font-size: 0.95em;
-            font-weight: 600;
+            font-size: 0.92em;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             letter-spacing: 0.5px;
@@ -155,11 +289,13 @@
         }
         
         .convert-btn {
-            background: #ffffff;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
             color: #000000;
-            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 28px rgba(255, 255, 255, 0.18),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.4);
             position: relative;
             overflow: hidden;
+            font-weight: 800;
         }
         
         .convert-btn::before {
@@ -169,8 +305,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s;
         }
         
         .convert-btn:hover::before {
@@ -178,46 +314,83 @@
         }
         
         .convert-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(255, 255, 255, 0.2);
-            background: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 36px rgba(255, 255, 255, 0.22);
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
         }
         
         .convert-btn:active {
-            transform: translateY(-1px);
+            transform: translateY(0);
+            box-shadow: 0 6px 16px rgba(255, 255, 255, 0.15);
         }
         
         .clear-btn {
-            background: #1a1a1a;
+            background: linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%);
             color: #ffffff;
-            border: 1px solid #333333;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
         }
         
         .clear-btn:hover {
-            background: #2a2a2a;
-            border-color: #555555;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, #2a2a2a 0%, #353535 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
         }
         
         .output-group {
-            margin-top: 30px;
+            margin-top: 35px;
+        }
+        
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
         }
         
         .output-label {
             display: block;
-            margin-bottom: 12px;
-            color: #f7f7f7;
+            color: #f0f0f0;
+            font-weight: 700;
+            font-size: 0.96em;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+        
+        .copy-btn {
+            background: linear-gradient(135deg, #2a2a2a 0%, #353535 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.8em;
             font-weight: 600;
-            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s;
             letter-spacing: 0.3px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .copy-btn:hover {
+            background: linear-gradient(135deg, #3a3a3a 0%, #454545 100%);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .copy-btn.copied {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            border-color: rgba(76, 175, 80, 0.3);
         }
         
         .output-box {
-            background: #1a1a1a;
-            border: 1px solid #333333;
-            border-radius: 12px;
-            padding: 18px;
-            min-height: 120px;
+            background: linear-gradient(135deg, #141414 0%, #1a1a1a 100%);
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 20px;
+            min-height: 130px;
             word-wrap: break-word;
             white-space: pre-wrap;
             font-family: 'Monaco', 'Courier New', monospace;
@@ -226,25 +399,29 @@
             font-size: 1.05em;
             letter-spacing: 0.5px;
             transition: all 0.3s;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+            position: relative;
         }
         
         .output-box.active {
-            border-color: #666666;
-            background: #222222;
-            box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.05),
-                        0 0 0 1px rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, #1a1a1a 0%, #222222 100%);
+            box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.04),
+                        0 0 0 1px rgba(255, 255, 255, 0.1),
+                        0 8px 24px rgba(0, 0, 0, 0.3);
         }
         
         .info-box {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 3px solid #555555;
-            padding: 16px;
-            border-radius: 8px;
-            margin-top: 25px;
-            font-size: 0.9em;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border-left: 4px solid rgba(255, 255, 255, 0.3);
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 28px;
+            font-size: 0.92em;
             color: #d3d3d3;
             font-weight: 400;
+            line-height: 1.6;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
         
         .info-box strong {
@@ -253,165 +430,659 @@
         }
         
         .char-count {
-            margin-top: 12px;
-            font-size: 0.85em;
+            margin-top: 14px;
+            font-size: 0.86em;
+            color: #a0a0a0;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        
+        .char-count i {
+            margin-right: 6px;
+            color: #ffffff;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            
+            .container {
+                padding: 40px 24px;
+                border-radius: 18px;
+            }
+            
+            .icon {
+                font-size: 3em;
+                width: 75px;
+                height: 75px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .subtitle {
+                font-size: 0.95em;
+            }
+            
+            .toggle-container {
+                gap: 10px;
+                padding: 8px;
+                margin-bottom: 25px;
+            }
+            
+            .toggle-btn {
+                padding: 10px 16px;
+                font-size: 0.85em;
+            }
+            
+            .mode-selector {
+                gap: 6px;
+                margin-bottom: 22px;
+            }
+            
+            .mode-btn {
+                padding: 8px 14px;
+                font-size: 0.8em;
+                border-radius: 6px;
+            }
+            
+            label {
+                font-size: 0.88em;
+            }
+            
+            textarea {
+                padding: 14px;
+                font-size: 0.95em;
+                min-height: 100px;
+                border-radius: 10px;
+            }
+            
+            .button-group {
+                gap: 10px;
+                margin-bottom: 24px;
+            }
+            
+            button {
+                padding: 12px 20px;
+                font-size: 0.85em;
+                border-radius: 8px;
+            }
+            
+            .output-box {
+                padding: 16px;
+                min-height: 100px;
+                font-size: 0.95em;
+                border-radius: 10px;
+            }
+            
+            .copy-btn {
+                padding: 6px 12px;
+                font-size: 0.75em;
+            }
+            
+            .info-box {
+                padding: 14px;
+                font-size: 0.85em;
+                margin-top: 20px;
+            }
+            
+            .char-count {
+                font-size: 0.8em;
+                margin-top: 10px;
+            }
+            
+            .footer {
+                margin-top: 30px;
+                padding: 18px;
+                font-size: 0.82em;
+            }
+            
+            .twitter-handle {
+                display: block;
+                margin-left: 0;
+                margin-top: 8px;
+            }
+            
+            .footer-links {
+                gap: 8px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 28px 18px;
+                border-radius: 14px;
+            }
+            
+            .icon {
+                font-size: 2.5em;
+                width: 65px;
+                height: 65px;
+                margin-bottom: 12px;
+            }
+            
+            h1 {
+                font-size: 1.6em;
+                margin-bottom: 6px;
+            }
+            
+            .subtitle {
+                font-size: 0.9em;
+            }
+            
+            .toggle-container {
+                flex-direction: column;
+                gap: 8px;
+                padding: 6px;
+                margin-bottom: 20px;
+            }
+            
+            .toggle-btn {
+                padding: 10px 14px;
+                font-size: 0.8em;
+            }
+            
+            .mode-selector {
+                gap: 5px;
+                padding: 6px;
+                margin-bottom: 18px;
+            }
+            
+            .mode-btn {
+                padding: 7px 10px;
+                font-size: 0.75em;
+            }
+            
+            label {
+                font-size: 0.85em;
+                margin-bottom: 10px;
+            }
+            
+            textarea {
+                padding: 12px;
+                font-size: 0.9em;
+                min-height: 90px;
+                letter-spacing: 0.5px;
+                border-radius: 8px;
+            }
+            
+            .button-group {
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+            
+            button {
+                padding: 11px 16px;
+                font-size: 0.8em;
+                border-radius: 6px;
+            }
+            
+            .output-group {
+                margin-top: 24px;
+            }
+            
+            .output-box {
+                padding: 14px;
+                min-height: 90px;
+                font-size: 0.9em;
+                border-radius: 8px;
+                line-height: 1.6;
+                letter-spacing: 0.4px;
+            }
+            
+            .copy-btn {
+                padding: 5px 10px;
+                font-size: 0.7em;
+                border-radius: 6px;
+            }
+            
+            .info-box {
+                padding: 12px;
+                font-size: 0.8em;
+                margin-top: 18px;
+                border-radius: 8px;
+            }
+            
+            .char-count {
+                font-size: 0.75em;
+                margin-top: 8px;
+            }
+            
+            .output-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+        
+        .footer {
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding: 24px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: #a0a0a0;
+            font-size: 0.88em;
+            line-height: 1.8;
+            max-width: 800px;
+            width: 100%;
+            flex-shrink: 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding: 24px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: #a0a0a0;
+            font-size: 0.88em;
+            line-height: 1.8;
+        }
+        
+        .developed-by {
+            margin: 0;
+            font-weight: 500;
+            color: #d3d3d3;
+        }
+        
+        .developed-by strong {
+            color: #ffffff;
+            font-weight: 700;
+        }
+        
+        .twitter-handle {
+            margin-left: 8px;
+            display: inline-block;
+        }
+        
+        .twitter-handle a {
             color: #888888;
-            font-weight: 400;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .twitter-handle a:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            margin: 14px 0;
+        }
+        
+        .developer-meta {
+            margin: 12px 0;
+            color: #888888;
+            font-size: 0.86em;
+            font-style: italic;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-link {
+            color: #888888;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .footer-link:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .link-separator {
+            color: #555555;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            
+            .container {
+                padding: 40px 24px;
+                border-radius: 18px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .footer {
+                margin-top: 24px;
+                padding: 14px;
+                font-size: 0.78em;
+                border-radius: 10px;
+            }
+            
+            .developed-by {
+                display: block;
+            }
+            
+            .twitter-handle {
+                display: block;
+                margin: 6px 0 0 0;
+            }
+            
+            .twitter-handle a {
+                font-size: 0.9em;
+            }
+            
+            .developer-meta {
+                font-size: 0.82em;
+                margin: 10px 0;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 6px;
+            }
+            
+            .link-separator {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="icon"><i class="fas fa-code"></i></div>
-            <h1>Binary Decoder</h1>
-            <p class="subtitle">Convert Binary to Text Instantly</p>
+            <div class="icon"><i class="fas fa-alphabet"></i></div>
+            <h1>Character Encoder</h1>
+            <p class="subtitle">Convert Text to Decimal or Binary</p>
+        </div>
+        
+        <div class="toggle-container">
+            <button class="toggle-btn active" onclick="setMode('encode')" id="encodeToggle">
+                <i class="fas fa-arrow-right"></i> Text to Code
+            </button>
+            <button class="toggle-btn" onclick="setMode('decode')" id="decodeToggle">
+                <i class="fas fa-arrow-left"></i> Code to Text
+            </button>
+        </div>
+        
+        <div class="mode-selector" id="modeSelector" style="display: flex;">
+            <button class="mode-btn active" onclick="setOutputMode('decimal')" id="decimalBtn">Decimal</button>
+            <button class="mode-btn" onclick="setOutputMode('binary')" id="binaryBtn">Binary</button>
         </div>
         
         <div class="input-group">
-            <label for="binaryInput">Binary Input</label>
-            <textarea id="binaryInput" placeholder="010000010100001001000011010001000100010101000110"></textarea>
+            <label for="input" id="inputLabel">Text Input</label>
+            <textarea id="input" placeholder="Hello World"></textarea>
         </div>
         
         <div class="button-group">
-            <button class="convert-btn" onclick="convertBinaryToText()"><i class="fas fa-arrow-right"></i> Convert</button>
+            <button class="convert-btn" onclick="convert()"><i class="fas fa-arrow-right"></i> Convert</button>
             <button class="clear-btn" onclick="clearAll()"><i class="fas fa-trash"></i> Clear</button>
         </div>
         
         <div class="output-group">
-            <span class="output-label">Output Text</span>
-            <div class="output-box" id="output">Your decoded text will appear here...</div>
+            <div class="output-header">
+                <span class="output-label">Output</span>
+                <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()" style="display: none;">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+            </div>
+            <div class="output-box" id="output">Your result will appear here...</div>
             <div class="char-count" id="charCount"></div>
         </div>
         
         <div class="info-box">
-            <strong><i class="fas fa-lightbulb"></i> Pro Tip:</strong> Enter binary as a continuous string (no spaces). Each 8 bits = 1 character. Non-ASCII values are automatically skipped!
+            <strong><i class="fas fa-lightbulb"></i> Pro Tip:</strong> Switch between Text to Code and Code to Text. Choose Decimal or Binary output. Emojis and invalid characters are auto-ignored!
         </div>
     </div>
     
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="developed-by">
+                Developed by <strong>Mr Ola</strong> 
+                <span class="twitter-handle">
+                    <a href="https://twitter.com/mrola500" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-x-twitter"></i> @mrola500
+                    </a>
+                </span>
+            </p>
+            <div class="footer-divider"></div>
+            <p class="developer-meta">
+                -- BY DEVELOPER FOR DEVELOPERS--
+            </p>
+            <div class="footer-links">
+                <a href="https://pacepro.com.ng" target="_blank" rel="noopener noreferrer" class="footer-link">
+                    <i class="fas fa-building"></i> Pacepro Solutions
+                </a>
+                <span class="link-separator">•</span>
+                <a href="https://mrola.gt.tc" target="_blank" rel="noopener noreferrer" class="footer-link">
+                    <i class="fas fa-user"></i> Portfolio
+                </a>
+            </div>
+        </div>
+    </footer>
+    
     <script>
-        function convertBinaryToText() {
-            const binaryInput = document.getElementById('binaryInput').value.trim();
+        let currentMode = 'encode';
+        let outputMode = 'decimal';
+        
+        function setMode(mode) {
+            currentMode = mode;
+            const encodeToggle = document.getElementById('encodeToggle');
+            const decodeToggle = document.getElementById('decodeToggle');
+            const inputLabel = document.getElementById('inputLabel');
+            const input = document.getElementById('input');
+            const modeSelector = document.getElementById('modeSelector');
+            
+            if (mode === 'encode') {
+                encodeToggle.classList.add('active');
+                decodeToggle.classList.remove('active');
+                inputLabel.textContent = 'Text Input';
+                input.placeholder = 'Hello World';
+                modeSelector.style.display = 'flex';
+            } else {
+                decodeToggle.classList.add('active');
+                encodeToggle.classList.remove('active');
+                inputLabel.textContent = 'Code Input';
+                input.placeholder = 'Enter decimal or binary codes (space or line separated)';
+                modeSelector.style.display = 'none';
+            }
+            
+            clearAll();
+        }
+        
+        function setOutputMode(mode) {
+            outputMode = mode;
+            const decimalBtn = document.getElementById('decimalBtn');
+            const binaryBtn = document.getElementById('binaryBtn');
+            
+            if (mode === 'decimal') {
+                decimalBtn.classList.add('active');
+                binaryBtn.classList.remove('active');
+            } else {
+                binaryBtn.classList.add('active');
+                decimalBtn.classList.remove('active');
+            }
+            
+            clearAll();
+        }
+        
+        function convert() {
+            const input = document.getElementById('input').value.trim();
             const output = document.getElementById('output');
             const charCount = document.getElementById('charCount');
             
-            if (!binaryInput) {
-                output.textContent = 'Please enter binary values!';
+            if (!input) {
+                output.textContent = 'Please enter some input!';
                 output.classList.remove('active');
                 charCount.textContent = '';
+                document.getElementById('copyBtn').style.display = 'none';
                 return;
             }
             
             try {
-                // Split by spaces or newlines first
-                let binaryChunks = binaryInput.trim().split(/[\s\n]+/);
-                
-                // Filter out empty strings
-                binaryChunks = binaryChunks.filter(chunk => chunk.length > 0);
-                
-                // If no chunks with spaces, treat as continuous string
-                if (binaryChunks.length === 0) {
-                    throw new Error('No binary input found.');
-                }
-                
-                let result = '';
-                let processedChars = 0;
-                let skippedChars = 0;
-                
-                // Check if input has spaces (individual 8-bit chunks)
-                const hasSpaces = binaryInput.includes(' ') || binaryInput.includes('\n');
-                
-                if (hasSpaces) {
-                    // Process space-separated binary
-                    for (let binary of binaryChunks) {
-                        // Validate binary format - only 0s and 1s
-                        if (!/^[01]+$/.test(binary)) {
-                            skippedChars++;
-                            continue;
-                        }
-                        
-                        // Pad or trim to 8 bits
-                        if (binary.length < 8) {
-                            binary = binary.padStart(8, '0');
-                        } else if (binary.length > 8) {
-                            skippedChars++;
-                            continue;
-                        }
-                        
-                        // Convert binary to decimal (ASCII code)
-                        const decimal = parseInt(binary, 2);
-                        
-                        // Auto-ignore non-standard ASCII values (outside 0-127)
-                        if (decimal < 0 || decimal > 127) {
-                            skippedChars++;
-                            continue;
-                        }
-                        
-                        // Convert ASCII code to character
-                        result += String.fromCharCode(decimal);
-                        processedChars++;
-                    }
+                if (currentMode === 'encode') {
+                    convertTextToCode(input, output, charCount);
                 } else {
-                    // Process continuous string without spaces
-                    const cleanBinary = binaryInput.replace(/[\s\n]/g, '');
-                    
-                    // Validate binary format - only 0s and 1s
-                    if (!/^[01]+$/.test(cleanBinary)) {
-                        throw new Error('Invalid characters detected. Please use only 0s and 1s.');
-                    }
-                    
-                    // Split into 8-bit chunks and convert
-                    for (let i = 0; i < cleanBinary.length; i += 8) {
-                        const binary = cleanBinary.substring(i, i + 8);
-                        
-                        // Skip if not 8 bits
-                        if (binary.length < 8) {
-                            skippedChars++;
-                            continue;
-                        }
-                        
-                        // Convert binary to decimal (ASCII code)
-                        const decimal = parseInt(binary, 2);
-                        
-                        // Auto-ignore non-standard ASCII values (outside 0-127)
-                        if (decimal < 0 || decimal > 127) {
-                            skippedChars++;
-                            continue;
-                        }
-                        
-                        // Convert ASCII code to character
-                        result += String.fromCharCode(decimal);
-                        processedChars++;
-                    }
+                    convertCodeToText(input, output, charCount);
                 }
-                
-                if (result === '') {
-                    output.textContent = 'No valid characters found. All values were outside ASCII range.';
-                    output.classList.remove('active');
-                    charCount.textContent = '';
-                } else {
-                    output.textContent = result;
-                    output.classList.add('active');
-                    charCount.innerHTML = `<i class="fas fa-check"></i> Characters decoded: ${processedChars}${skippedChars > 0 ? ` (${skippedChars} skipped)` : ''}`;
-                }
+                document.getElementById('copyBtn').style.display = 'flex';
             } catch (error) {
                 output.textContent = `⚠ ${error.message}`;
                 output.classList.remove('active');
                 charCount.textContent = '';
+                document.getElementById('copyBtn').style.display = 'none';
             }
         }
         
-        function clearAll() {
-            document.getElementById('binaryInput').value = '';
-            document.getElementById('output').textContent = 'Your decoded text will appear here...';
-            document.getElementById('output').classList.remove('active');
-            document.getElementById('charCount').textContent = '';
+        function convertTextToCode(textInput, output, charCount) {
+            let result = '';
+            let processedChars = 0;
+            
+            for (let i = 0; i < textInput.length; i++) {
+                const char = textInput[i];
+                const ascii = char.charCodeAt(0);
+                
+                if (ascii > 127) {
+                    continue;
+                }
+                
+                if (outputMode === 'decimal') {
+                    result += ascii + ' ';
+                } else {
+                    const binary = ascii.toString(2).padStart(8, '0');
+                    result += binary + ' ';
+                }
+                
+                processedChars++;
+            }
+            
+            result = result.trim();
+            
+            if (result === '') {
+                output.textContent = 'No valid ASCII characters found.';
+                output.classList.remove('active');
+                charCount.textContent = '';
+            } else {
+                output.textContent = result;
+                output.classList.add('active');
+                charCount.innerHTML = `<i class="fas fa-check"></i> Characters encoded: ${processedChars}`;
+            }
         }
         
-        // Allow Enter key to convert
-        document.getElementById('binaryInput').addEventListener('keydown', function(e) {
+        function convertCodeToText(codeInput, output, charCount) {
+            let codes = codeInput.trim().split(/[\s\n]+/);
+            codes = codes.filter(code => code.length > 0);
+            
+            if (codes.length === 0) {
+                throw new Error('No codes found.');
+            }
+            
+            let result = '';
+            let processedChars = 0;
+            let skippedChars = 0;
+            
+            for (let code of codes) {
+                try {
+                    let decimal;
+                    
+                    if (/^[01]+$/.test(code)) {
+                        decimal = parseInt(code, 2);
+                    } else if (/^\d+$/.test(code)) {
+                        decimal = parseInt(code, 10);
+                    } else {
+                        skippedChars++;
+                        continue;
+                    }
+                    
+                    if (decimal < 0 || decimal > 127) {
+                        skippedChars++;
+                        continue;
+                    }
+                    
+                    result += String.fromCharCode(decimal);
+                    processedChars++;
+                } catch (e) {
+                    skippedChars++;
+                    continue;
+                }
+            }
+            
+            if (result === '') {
+                output.textContent = 'No valid characters decoded.';
+                output.classList.remove('active');
+                charCount.textContent = '';
+            } else {
+                output.textContent = result;
+                output.classList.add('active');
+                charCount.innerHTML = `<i class="fas fa-check"></i> Characters decoded: ${processedChars}${skippedChars > 0 ? ` (${skippedChars} skipped)` : ''}`;
+            }
+        }
+        
+        function copyToClipboard() {
+            const outputText = document.getElementById('output').textContent;
+            const copyBtn = document.getElementById('copyBtn');
+            
+            navigator.clipboard.writeText(outputText).then(() => {
+                copyBtn.classList.add('copied');
+                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                
+                setTimeout(() => {
+                    copyBtn.classList.remove('copied');
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+        
+        function clearAll() {
+            document.getElementById('input').value = '';
+            document.getElementById('output').textContent = 'Your result will appear here...';
+            document.getElementById('output').classList.remove('active');
+            document.getElementById('charCount').textContent = '';
+            document.getElementById('copyBtn').style.display = 'none';
+        }
+        
+        document.getElementById('input').addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'Enter') {
-                convertBinaryToText();
+                convert();
             }
         });
     </script>
